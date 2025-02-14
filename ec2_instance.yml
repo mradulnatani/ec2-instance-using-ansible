@@ -5,3 +5,6 @@
 
   roles:
     - ec2-instance
+
+#use this command to run the ansible-galaxy script
+#ansible-playbook ec2_instance.yml -e "elastic_ip=13.202.211.207"
