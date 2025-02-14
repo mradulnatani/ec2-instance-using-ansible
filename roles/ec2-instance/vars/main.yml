@@ -1,8 +1,7 @@
 ---
-# vars file for roles/ec2-instance
 aws_region: "ap-south-1"
 instance_type: "t2.micro"
-ami_id: "ami-03b27804d086a7178"
+ami_id: "ami-0ffcce5176587222e"
 key_name: "mradul"
 security_group_id: "sg-0122f2264a5094030"
 subnet_id: "subnet-063167bdf8a645836 "

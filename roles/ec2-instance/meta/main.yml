@@ -1,5 +1,5 @@
 galaxy_info:
-  author: Your Name
+  author: Mradul
   description: "Ansible Galaxy role to provision AWS EC2 instances"
   license: "MIT"
   min_ansible_version: 2.9

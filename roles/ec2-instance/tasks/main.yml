@@ -4,9 +4,9 @@
     name: "MyAnsibleInstance"
     key_name: "{{ key_name }}"
     instance_type: "{{ instance_type }}"
-    security_groups:  # ✅ Corrected security group
+    security_groups:  
       - "{{ security_group_id }}"
-    vpc_subnet_id: "{{ subnet_id }}"  # ✅ Removed `subnet_id` to avoid conflict
+    vpc_subnet_id: "{{ subnet_id }}"  
     image_id: "{{ ami_id }}"
     region: "{{ aws_region }}"
     count: 1
