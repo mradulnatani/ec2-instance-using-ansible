@@ -1,4 +1,3 @@
----
 - name: Launch EC2 instance in existing VPC & Subnet
   amazon.aws.ec2_instance:
     name: "MyAnsibleInstance"
@@ -15,11 +14,19 @@
       Name: Ansible-EC2
   register: ec2
 
-- name: Save public IP to a file
-  copy:
-    content: "{{ ec2.instances[0].public_ip_address }}"
-    dest: "ec2_public_ip.txt"
+- name: Wait for EC2 instance to be in running state
+  amazon.aws.ec2_instance_info:
+    region: "{{ aws_region }}"
+    instance_ids: "{{ ec2.instances[0].instance_id }}"
+  register: ec2_info
+  until: ec2_info.instances[0].state.name == "running"
+  retries: 10
+  delay: 10
 
-- name: Show instance details
-  debug:
-    msg: "EC2 instance {{ ec2.instances[0].public_ip_address }} is launched"
+- name: Associate Elastic IP with EC2 instance
+  amazon.aws.ec2_eip:
+    region: "{{ aws_region }}"
+    public_ip: "{{ elastic_ip }}"
+    device_id: "{{ ec2.instances[0].network_interfaces[0].network_interface_id }}"
+    in_vpc: true
+  when: elastic_ip is defined
