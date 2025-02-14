@@ -1,5 +1,6 @@
 - name: Deploy EC2 instance using Ansible Galaxy Role
   hosts: localhost
   gather_facts: no
+  become: false
   roles:
     - ec2-instance

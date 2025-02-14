@@ -1,2 +1,25 @@
 ---
-# tasks file for roles/ec2-instance
+- name: Launch EC2 instance in existing VPC & Subnet
+  amazon.aws.ec2_instance:
+    name: "MyAnsibleInstance"
+    key_name: "{{ key_name }}"
+    instance_type: "{{ instance_type }}"
+    security_groups:  # ✅ Corrected security group
+      - "{{ security_group_id }}"
+    vpc_subnet_id: "{{ subnet_id }}"  # ✅ Removed `subnet_id` to avoid conflict
+    image_id: "{{ ami_id }}"
+    region: "{{ aws_region }}"
+    count: 1
+    wait: yes
+    tags:
+      Name: Ansible-EC2
+  register: ec2
+
+- name: Save public IP to a file
+  copy:
+    content: "{{ ec2.instances[0].public_ip_address }}"
+    dest: "ec2_public_ip.txt"
+
+- name: Show instance details
+  debug:
+    msg: "EC2 instance {{ ec2.instances[0].public_ip_address }} is launched"
